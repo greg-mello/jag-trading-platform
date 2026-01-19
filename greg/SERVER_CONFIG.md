@@ -168,12 +168,16 @@ Created the Ubuntu Server VM
   - `git init` in /srv/group-project
   - Created `/srv/group-project/git.ignore`
   - Ran initial git add and commit
+  - Added user and email for git tracking
+    - have all team members run these 2 commands with name and email.
+    - `git config --global user.name "FirstName"`
+    - `git config --global user.email "FirstName@local"`
 
 - **Adjusted Folder and App Permissions**
   - Changed owner of `/srv/group-project` to greg from root
   - Added MySQL and Apcache to group:`group-project`
     * Avoides read/write issues in the future
-  
+
 
 ## To Do
 - Link git repo to git.hub
@@ -186,3 +190,12 @@ Created the Ubuntu Server VM
 - encryption of senstitive fake data in database
 - let arjie know about about python backend
 - talk to the group about names that will be used for different things need to be implemented in various places i.e table names, functions, requests
+
+## Git Guide
+  - Create a branch with `git checkout -b yourname-feature`
+  - Add changes `git add <file-or-folder>`
+  - Commit changes `git commit -m "description of what was done"`
+  - Pull latest changes from master `git checkout master` -> `git pull`
+  - Merge branch with master `git checkout master` -> `git merge yourname-feature`
+  - Check status `git status`
+  
