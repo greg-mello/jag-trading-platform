@@ -172,6 +172,8 @@ Created the Ubuntu Server VM
     - have all team members run these 2 commands with name and email.
     - `git config --global user.name "FirstName"`
     - `git config --global user.email "FirstName@local"`
+  - Linked git repo to github @ `https://github.com/gmello1987/ift401.git`
+  - Generated token and saved to keyring
 
 - **Adjusted Folder and App Permissions**
   - Changed owner of `/srv/group-project` to greg from root
