@@ -1,0 +1,23 @@
+###files/directories to be ignored by git###
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environments(no atm)
+venv/
+.venv/
+
+# Flask instance folder (configs)
+instance/
+.flaskenv
+
+# Logs
+*.log
+
+# Environment / Secrets
+.env
+
+# OS / Editor Files
+.DS_Store
+*.swp
