@@ -23,7 +23,7 @@ def add_stock():
             }
         })
 
-    ## Stock details from front end
+    ## Stock details from input
     admin_input = request.get_json()
     ticker = admin_input['ticker']
     company = admin_input['company']
