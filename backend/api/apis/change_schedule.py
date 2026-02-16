@@ -5,7 +5,7 @@ import pymysql
 from datetime import datetime, timedelta
 from db_connection import get_connection
 
-change_hours_bp = Blueprint("change_hours", __name__)
+change_schedule_bp = Blueprint("change_schedule", __name__)
 
 ## Convert from timedelta
 def json_time(x):
@@ -17,10 +17,10 @@ def json_time(x):
         return f"{h:02d}:{m:02d}:{s:02d}"
     return x
 
-@change_hours_bp.route('/api/change_hours', methods=["GET", "POST"])
+@change_schedule_bp.route('/api/change_schedule', methods=["GET", "POST"])
 
 ## Change hours
-def change_hours():
+def change_schedule():
 
     connection = get_connection()
     cursor = connection.cursor()
@@ -33,7 +33,7 @@ def change_hours():
         ## Convert open_time and close_time 
         calendar = [
             {
-                "date": r["date"].strftime("%Y-%m-%d"),
+                "date": r["date"],
                 "is_market_open": r["is_market_open"],
                 "day_type": r["day_type"],
                 "holiday_name": r["holiday_name"],
@@ -51,12 +51,15 @@ def change_hours():
     ## Add schedule details from input
     admin_input = request.get_json()
     date = admin_input['date']
+    is_open = admin_input['is_market_open']
+    day_type = admin_input['day_type']
+    holiday_name = admin_input['holiday_name']
     open_time = admin_input['open_time']
     close_time = admin_input['close_time']
 
     cursor.execute(
-        "UPDATE market_calendar SET open_time = %s, close_time = %s WHERE date = %s",
-        (open_time, close_time, date)
+        "UPDATE market_calendar SET is_market_open = %s, holiday_name = %s, open_time = %s, close_time = %s WHERE date = %s",
+        (is_open, holiday_name, open_time, close_time, date)
     )
 
     connection.commit()
@@ -65,5 +68,5 @@ def change_hours():
     ## Confirmation message
     return jsonify({
         'success': True,
-        'message': f'New hours for {date}: {open_time} - {close_time}'
+        'message': f'Schedule has been updated.'
     })
