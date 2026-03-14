@@ -4,8 +4,11 @@ from apis.list_prices import list_prices_bp
 from apis.add_stock import add_stock_bp
 from apis.change_hours import change_hours_bp
 from apis.change_schedule import change_schedule_bp
+from apis.register import register_bp
+from apis.login import login_bp
 
 app = Flask(__name__)
+app.secret_key = 'gfCBds65sTd8gs$'
 
 ## Show all stocks and prices
 app.register_blueprint(list_prices_bp)
@@ -15,6 +18,10 @@ app.register_blueprint(add_stock_bp)
 app.register_blueprint(change_hours_bp)
 ## Change schedule
 app.register_blueprint(change_schedule_bp)
+## Register new user
+app.register_blueprint(register_bp)
+## User login
+app.register_blueprint(login_bp)
 
 ## Serve static frontend files
 @app.route('/')

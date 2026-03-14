@@ -1,2 +1,8 @@
 ## Upload database backup file to the runtime server
-    - scp -i /srv/group-project/greg/jagkp.pem /var/backups/mysql/trading_platform_20260209_052933.sql.gz ubuntu@34.233.94.216:/home/ubuntu/
+	scp -i /srv/group-project/greg/jagkp.pem /var/backups/mysql/trading_platform_20260314_012425.sql.gz ubuntu@34.233.94.216:/home/ubuntu/
+
+## unzip
+	gunzip ~/trading_platform_20260314_012425.sql.gz
+
+## import
+	mysql -u root -p trading_platform < ~/trading_platform_20260314_012425.sql	
