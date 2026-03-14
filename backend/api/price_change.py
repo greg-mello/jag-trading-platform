@@ -1,5 +1,5 @@
 ##Python program to update stock prices every hour during market sessions
-##Checks time and day to ensure updates only happen during markey sessions
+##Checks time and day to ensure updates only happen during market sessions
 ##Fetches stock_id, ticker, curr_price from Stocks
 
 import random
