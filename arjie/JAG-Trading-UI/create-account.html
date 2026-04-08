@@ -1,85 +1,88 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>J.A.G Trading Platform - Create Account</title>
-  <link rel="stylesheet" href="css/styles.css" />
-  <script defer src="js/app.js"></script>
-</head>
-
-<body>
-  <header class="topbar">
-    <div class="topbar-inner">
-<div class="brand">
-<div class="brand">J.A.G Trading Platform</div>
-<div class="brand brand-logo">
-  <img src="./img/logo.png" alt="J.A.G Trading Logo" class="logo-img" />
-</div>
-
-      <div class="page-title">Create Account</div>
-      <div class="role-pill" id="rolePill">Guest</div>
-    </div>
-  </header>
-
-  <div class="app">
-    <aside class="sidebar">
-      <nav class="nav">
-        <a class="nav-item" href="index.html">Login</a>
-        <a class="nav-item is-active" href="create-account.html">Create Account</a>
-        <a class="nav-item" href="market.html">Market</a>
-        <a class="nav-item" href="trade-ticket.html">Trade Ticket</a>
-        <a class="nav-item" href="open-orders.html">Open Orders</a>
-        <a class="nav-item" href="portfolio-cash.html">Portfolio &amp; Cash</a>
-        <a class="nav-item" href="transaction-history.html">Transaction History</a>
-        <a class="nav-item" href="admin-stocks.html">Admin: Stocks</a>
-        <a class="nav-item" href="admin-market.html">Admin: Market</a>
-      </nav>
-    </aside>
-
-    <main class="content">
-      <section class="panel panel-lg">
-        <div class="panel-header">
-          <h1 class="panel-title">Create account</h1>
-        </div>
-
-        <form class="form" id="createAccountForm" autocomplete="on">
-          <div class="field">
-            <label class="label" for="firstName">First name</label>
-            <input class="input" id="firstName" name="firstName" type="text" placeholder= required />
-          </div>
-
-          <div class="field">
-            <label class="label" for="lastName">Last name</label>
-            <input class="input" id="lastName" name="lastName" type="text" placeholder= required />
-          </div>
-
-          <div class="field">
-            <label class="label" for="email">Email</label>
-            <input class="input" id="email" name="email" type="email" placeholder="name@email.com" required />
-          </div>
-
-          <div class="field">
-            <label class="label" for="password">Password</label>
-            <input class="input" id="password" name="password" type="password" placeholder="Create a password" required />
-          </div>
-
-          <div class="field">
-            <label class="label" for="confirmPassword">Confirm password</label>
-            <input class="input" id="confirmPassword" name="confirmPassword" type="password" placeholder="Confirm password" required />
-          </div>
-
-          <div class="actions">
-            <button class="btn btn-primary" type="submit">Create account</button>
-            <a class="btn btn-ghost" href="index.html">Back to login</a>
-          </div>
-
-          <p class="helper" id="createHelper">
-            If the email already exists, the system tells the user to log in. If not, it creates the account and redirects to the login screen.
-          </p>
-        </form>
-      </section>
-    </main>
-  </div>
-</body>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>J.A.G Trading Platform - Create Account</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script defer src="js/app.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">J.A.G Trading Platform</div>
+      <div class="brand brand-logo">
+        <img src="./img/logo.png" alt="J.A.G Trading Logo" class="logo-img" />
+      </div>
+      <div class="page-title">Create Account</div>
+      <div class="role-pill" id="rolePill">Guest</div>
+    </div>
+  </header>
+
+  <div class="app">
+    <aside class="sidebar">
+      <nav class="nav">
+        <a class="nav-item" href="index.html">Login</a>
+        <a class="nav-item is-active" href="create-account.html">Create Account</a>
+        <a class="nav-item" href="market.html">Market</a>
+        <a class="nav-item" href="trade-ticket.html">Trade Ticket</a>
+        <a class="nav-item" href="open-orders.html">Open Orders</a>
+        <a class="nav-item" href="portfolio-cash.html">Portfolio &amp; Cash</a>
+        <a class="nav-item" href="transaction-history.html">Transaction History</a>
+        <a class="nav-item" href="admin-stocks.html">Admin: Stocks</a>
+        <a class="nav-item" href="admin-market.html">Admin: Market</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <section class="panel panel-lg">
+        <div class="panel-header">
+          <h1 class="panel-title">Create account</h1>
+        </div>
+
+        <form class="form" id="createAccountForm" autocomplete="on">
+          <div class="field">
+            <label class="label" for="firstName">First name</label>
+            <input class="input" id="firstName" name="firstName" type="text" placeholder="First name" required />
+          </div>
+
+          <div class="field">
+            <label class="label" for="lastName">Last name</label>
+            <input class="input" id="lastName" name="lastName" type="text" placeholder="Last name" required />
+          </div>
+
+          <div class="field">
+            <label class="label" for="userName">Username</label>
+            <input class="input" id="userName" name="userName" type="text" placeholder="Choose a username" required />
+          </div>
+
+          <div class="field">
+            <label class="label" for="email">Email</label>
+            <input class="input" id="email" name="email" type="email" placeholder="name@email.com" required />
+          </div>
+
+          <div class="field">
+            <label class="label" for="password">Password</label>
+            <input class="input" id="password" name="password" type="password" placeholder="Create a password" required />
+          </div>
+
+          <div class="field">
+            <label class="label" for="confirmPassword">Confirm password</label>
+            <input class="input" id="confirmPassword" name="confirmPassword" type="password" placeholder="Confirm password" required />
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" type="submit">Create account</button>
+            <a class="btn btn-ghost" href="index.html">Back to login</a>
+          </div>
+
+          <p class="helper" id="createHelper">
+            If the email already exists, the system tells the user to log in. If not, it creates the account and redirects to the login screen.
+          </p>
+        </form>
+      </section>
+    </main>
+  </div>
+</body>
 </html>

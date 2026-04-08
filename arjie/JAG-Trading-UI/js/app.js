@@ -1,31 +1,196 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // =========================
-  // Shared helpers
-  // =========================
-  const API_BASE = "https://jagtrading.xyz/api"; // same-domain: https://jagtrading.xyz/api/...
-
-  // =========================
-  // Login (index.html) placeholder
-  // =========================
-  const loginForm = document.getElementById("loginForm");
-  if (loginForm) {
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      alert("Login is a placeholder for now. Next step is wiring this to the Flask API.");
-    });
-  }
-
-  // role pill auto text (optional)
-  const rolePill = document.getElementById("rolePill");
-  if (rolePill) {
-    const role = document.body?.dataset?.role;
-    if (role === "admin") rolePill.textContent = "Admin";
-    if (role === "customer") rolePill.textContent = "Customer";
-    if (!role) rolePill.textContent = rolePill.textContent || "Guest";
-  }
-
-  // =========================
-  // Market page (market.html)
+document.addEventListener("DOMContentLoaded", () => {
+  // =========================
+  // API base (works on dev/prod; falls back when opened via file://)
+  // =========================
+  const REMOTE_API = "https://jagtrading.xyz/api";
+  const API_BASE = (() => {
+    const proto = window.location.protocol;
+    if (proto === "http:" || proto === "https:") {
+      const host = (window.location.hostname || "").toLowerCase();
+      if (host === "100.72.22.18" || host.endsWith("jagtrading.xyz")) return "/api";
+    }
+    return REMOTE_API;
+  })();
+
+  const fetchJson = async (url, options = {}) => {
+    const res = await fetch(url, {
+      cache: "no-store",
+      credentials: "include",
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        ...(options.headers || {}),
+      },
+    });
+
+    const text = await res.text();
+    let data = null;
+
+    try {
+      data = text ? JSON.parse(text) : null;
+    } catch {
+      data = text;
+    }
+
+    if (!res.ok) {
+      const msg =
+        (typeof data === "string" && data) ||
+        data?.message ||
+        data?.error ||
+        data?.details ||
+        `HTTP ${res.status}`;
+      throw new Error(msg);
+    }
+
+    return data;
+  };
+
+  const pickInput = (...keys) => {
+    for (const key of keys) {
+      const byId = document.getElementById(key);
+      if (byId) return byId;
+
+      const byName = document.querySelector(`[name="${key}"]`);
+      if (byName) return byName;
+    }
+    return null;
+  };
+
+  const getRoleFromResponse = (data) => {
+    return String(
+      data?.role ||
+      data?.user?.role ||
+      data?.session?.role ||
+      ""
+    ).toLowerCase();
+  };
+
+  const redirectByRole = (role) => {
+    const r = String(role || "").toLowerCase();
+
+    if (r === "admin") {
+      window.location.href = "admin-stocks.html";
+      return;
+    }
+
+    window.location.href = "market.html";
+  };
+
+  // =========================
+  // Role pill
+  // =========================
+  const rolePill = document.getElementById("rolePill");
+  if (rolePill) {
+    const role = document.body?.dataset?.role;
+    if (role === "admin") rolePill.textContent = "Admin";
+    if (role === "customer" || role === "user") rolePill.textContent = "User";
+    if (!role) rolePill.textContent = rolePill.textContent || "Guest";
+  }
+
+  // =========================
+  // Login (index.html)
+  // =========================
+  const loginForm = document.getElementById("loginForm");
+  if (loginForm) {
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const userNameEl = pickInput("user_name", "userName", "username");
+      const passwordEl = pickInput("password");
+
+      const payload = {
+        user_name: (userNameEl?.value || "").trim(),
+        password: passwordEl?.value || "",
+      };
+
+      if (!payload.user_name || !payload.password) {
+        alert("Please enter your username and password.");
+        return;
+      }
+
+      const submitBtn = loginForm.querySelector('button[type="submit"], input[type="submit"]');
+      if (submitBtn) submitBtn.disabled = true;
+
+      try {
+        const data = await fetchJson(`${API_BASE}/login`, {
+          method: "POST",
+          body: JSON.stringify(payload),
+        });
+
+        const role = getRoleFromResponse(data) || "user";
+        alert("Login successful.");
+        redirectByRole(role);
+      } catch (err) {
+        alert("Login failed: " + err.message);
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
+  }
+
+  // =========================
+  // Create account (create-account.html)
+  // =========================
+  const createAccountForm = document.getElementById("createAccountForm");
+  if (createAccountForm) {
+    createAccountForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const firstNameEl = document.getElementById("firstName");
+      const lastNameEl = document.getElementById("lastName");
+      const userNameEl = document.getElementById("userName");
+      const emailEl = document.getElementById("email");
+      const passwordEl = document.getElementById("password");
+      const confirmPasswordEl = document.getElementById("confirmPassword");
+
+      const payload = {
+        first_name: (firstNameEl?.value || "").trim(),
+        last_name: (lastNameEl?.value || "").trim(),
+        user_name: (userNameEl?.value || "").trim(),
+        email_address: (emailEl?.value || "").trim(),
+        password: passwordEl?.value || "",
+      };
+
+      const confirmPassword = confirmPasswordEl?.value || "";
+
+      if (
+        !payload.first_name ||
+        !payload.last_name ||
+        !payload.user_name ||
+        !payload.email_address ||
+        !payload.password
+      ) {
+        alert("Please fill out all fields.");
+        return;
+      }
+
+      if (payload.password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      const submitBtn = createAccountForm.querySelector('button[type="submit"], input[type="submit"]');
+      if (submitBtn) submitBtn.disabled = true;
+
+      try {
+        await fetchJson(`${API_BASE}/register`, {
+          method: "POST",
+          body: JSON.stringify(payload),
+        });
+
+        alert("Account created successfully. Please log in.");
+        window.location.href = "index.html";
+      } catch (err) {
+        alert("Create account failed: " + err.message);
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
+  }
+
+  // =========================
+  // Market page (market.html)
   // =========================
   const marketTableBody = document.getElementById("marketTableBody");
   const refreshMarketBtn = document.getElementById("refreshMarketBtn");

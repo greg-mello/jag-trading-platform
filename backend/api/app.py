@@ -6,6 +6,8 @@ from apis.change_hours import change_hours_bp
 from apis.change_schedule import change_schedule_bp
 from apis.register import register_bp
 from apis.login import login_bp
+from apis.logout import logout_bp
+from apis.bank import bank_bp
 
 app = Flask(__name__)
 app.secret_key = 'gfCBds65sTd8gs$'
@@ -22,6 +24,10 @@ app.register_blueprint(change_schedule_bp)
 app.register_blueprint(register_bp)
 ## User login
 app.register_blueprint(login_bp)
+## User logout
+app.register_blueprint(logout_bp)
+## Balance, Deposit and Withdraw
+app.register_blueprint(bank_bp)
 
 ## Serve static frontend files
 @app.route('/')
