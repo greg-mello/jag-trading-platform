@@ -8,6 +8,7 @@ from apis.register import register_bp
 from apis.login import login_bp
 from apis.logout import logout_bp
 from apis.bank import bank_bp
+from apis.trade import trade_bp
 
 app = Flask(__name__)
 app.secret_key = 'gfCBds65sTd8gs$'
@@ -28,6 +29,8 @@ app.register_blueprint(login_bp)
 app.register_blueprint(logout_bp)
 ## Balance, Deposit and Withdraw
 app.register_blueprint(bank_bp)
+## Buy, Sell and Cancel
+app.register_blueprint(trade_bp)
 
 ## Serve static frontend files
 @app.route('/')
