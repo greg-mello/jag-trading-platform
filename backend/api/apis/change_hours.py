@@ -1,6 +1,6 @@
 ## API to update market hours 
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 import pymysql
 from datetime import datetime, timedelta
 from db_connection import get_connection
@@ -21,6 +21,9 @@ def json_time(x):
 
 ## Change hours
 def change_hours():
+## Make sure user is 'admin' and logged in    
+    if 'user_id' not in session or session.get('role') != 'admin':
+            return jsonify({"error": "Admin access required"}), 403
 
     connection = get_connection()
     cursor = connection.cursor()

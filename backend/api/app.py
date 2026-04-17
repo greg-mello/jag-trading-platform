@@ -10,6 +10,7 @@ from apis.logout import logout_bp
 from apis.bank import bank_bp
 from apis.trade import trade_bp
 from apis.portfolio_history import portfolio_bp
+from apis.check_role import check_role_bp
 
 app = Flask(__name__)
 app.secret_key = 'gfCBds65sTd8gs$'
@@ -34,6 +35,10 @@ app.register_blueprint(bank_bp)
 app.register_blueprint(trade_bp)
 ## Get portfolio and transaction history
 app.register_blueprint(portfolio_bp)
+
+
+## Check role for user
+app.register_blueprint(check_role_bp)
 
 ## Serve static frontend files
 @app.route('/')

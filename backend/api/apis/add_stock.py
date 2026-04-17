@@ -1,6 +1,6 @@
 ## API to add stocks to the database
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 import pymysql
 from datetime import datetime
 from db_connection import get_connection
@@ -9,8 +9,13 @@ add_stock_bp = Blueprint("add_stock", __name__)
 
 @add_stock_bp.route('/api/add_stock', methods=['GET', 'POST'])
 
+
 ## Add a stock 
 def add_stock():
+## Make sure user is 'admin' and logged in
+    if 'user_id' not in session or session.get('role') != 'admin':
+            return jsonify({"error": "Admin access required"}), 403
+    
     if request.method == 'GET':
         return jsonify({
             'message': 'This endpoint if for adding stocks to the database.',

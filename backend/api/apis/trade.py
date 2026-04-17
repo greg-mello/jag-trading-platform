@@ -1,5 +1,6 @@
 ## API to handle buy, sell, and cancel orders
 from flask import Blueprint, request, jsonify, session
+from datetime import datetime, time as curr_time
 from db_connection import get_connection
 
 trade_bp = Blueprint('trade', __name__)
@@ -7,6 +8,9 @@ trade_bp = Blueprint('trade', __name__)
 ## Buy order
 @trade_bp.route('/api/buy', methods=['POST'])
 def buy():
+    now = datetime.now().time()
+    market_open = curr_time(9, 30) <= now <= curr_time(16, 0)
+
 ## Make sure user is logged in
     if 'user_id' not in session:
         return jsonify({"success": False, "message": "Unauthorized"}), 401
@@ -46,10 +50,10 @@ def buy():
             return jsonify({"success": False, "message": "Insufficient funds"}), 400
 
 ## Default status is completed, set to pending if price is below market price
-        if price < curr_price:
-            status = 'pending'
-        else:
+        if market_open:
             status = 'completed'
+        else:
+            status = 'pending'
 
 ## Add transaction into order table
         cursor.execute(
@@ -96,6 +100,9 @@ def buy():
 @trade_bp.route('/api/sell', methods=['POST'])
 def sell():
 
+    now = datetime.now().time()
+    market_open = curr_time(9, 30) <= now <= curr_time(16, 0)
+
 ## Make sure user is logged in
     if 'user_id' not in session:
         return jsonify({"success": False, "message": "Unauthorized"}), 401
@@ -139,10 +146,10 @@ def sell():
         total_value = quantity * price
 
 ## Default status is completed, set to pending if price is above market price
-        if price > curr_price:
-            status = 'pending'
-        else:
+        if market_open:
             status = 'completed'
+        else:
+            status = 'pending'
 
 ## Save transaction to order table
         cursor.execute(
