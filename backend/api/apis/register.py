@@ -24,6 +24,20 @@ def register():
     conn = get_connection()
     cursor = conn.cursor()
 
+## Check if username or email is already in use
+    ## Check if username or email already exists
+    ## Check if username or email already exists
+## Check if username or email already exists
+    cursor.execute("SELECT user_name, email_address FROM user WHERE user_name = %s OR email_address = %s",
+        (user_name, email_address))
+    existing = cursor.fetchone()
+
+    if existing:
+        if existing['user_name'] == user_name:
+            return jsonify({"success": False, "message": "Account already exists. Please log in."}), 409
+        else:
+            return jsonify({"success": False, "message": "Account already exists. Please log in."}), 409
+
     try:
         cursor.execute(
             "INSERT INTO user (first_name, last_name, user_name, email_address, password) VALUES (%s, %s, %s, %s, %s)",
