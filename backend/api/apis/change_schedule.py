@@ -55,19 +55,24 @@ def change_schedule():
     admin_input = request.get_json()
     date = admin_input['date']
     is_open = admin_input['is_market_open']
-    day_type = admin_input.get('day_type')
     holiday_name = admin_input.get('holiday_name', '')
-    open_time = admin_input.get('open_time')
-    close_time = admin_input.get('close_time')
+    open_time = admin_input.get('open_time', '09:30:00')
+    close_time = admin_input.get('close_time', '16:00:00')
 
-    ## If market is closed, clear hours and keep/set holiday name
+    ## Closed day: clear hours, keep holiday name
     if int(is_open) == 0:
-        open_time = None
-        close_time = None
+        open_time = "00:00:00"
+        close_time = "00:00:00"
+        if not holiday_name:
+            holiday_name = "N/A"
 
-    ## If market is open, clear holiday name
+    ## Open day: clear holiday name, restore default hours if needed
     if int(is_open) == 1:
-        holiday_name = None
+        holiday_name = "N/A"
+        if not open_time or open_time == "00:00:00":
+            open_time = "09:30:00"
+        if not close_time or close_time == "00:00:00":
+            close_time = "16:00:00"
 
     cursor.execute(
         "UPDATE market_calendar SET is_market_open = %s, holiday_name = %s, open_time = %s, close_time = %s WHERE date = %s",
