@@ -1,4 +1,4 @@
-## API to update market hours 
+## API to update market schedule
 
 from flask import Blueprint, request, jsonify, session
 import pymysql
@@ -19,9 +19,11 @@ def json_time(x):
 
 @change_schedule_bp.route('/api/change_schedule', methods=["GET", "POST"])
 
-## Change hours
+## Change schedule
 def change_schedule():
 ## Make sure user is 'admin' and logged in
+    if 'user_id' not in session or session.get('role') != 'admin':
+        return jsonify({"error": "Admin access required"}), 403
 
     connection = get_connection()
     cursor = connection.cursor()
@@ -31,10 +33,10 @@ def change_schedule():
         calendar = cursor.fetchall()
         connection.close()
 
-        ## Convert open_time and close_time 
+        ## Convert open_time and close_time
         calendar = [
             {
-                "date": r["date"],
+                "date": r["date"].strftime("%Y-%m-%d"),
                 "is_market_open": r["is_market_open"],
                 "day_type": r["day_type"],
                 "holiday_name": r["holiday_name"],
@@ -53,17 +55,25 @@ def change_schedule():
     admin_input = request.get_json()
     date = admin_input['date']
     is_open = admin_input['is_market_open']
-    day_type = admin_input['day_type']
-    holiday_name = admin_input['holiday_name']
-    open_time = admin_input['open_time']
-    close_time = admin_input['close_time']
+    day_type = admin_input.get('day_type')
+    holiday_name = admin_input.get('holiday_name', '')
+    open_time = admin_input.get('open_time')
+    close_time = admin_input.get('close_time')
+
+    ## If market is closed, clear hours and keep/set holiday name
+    if int(is_open) == 0:
+        open_time = None
+        close_time = None
+
+    ## If market is open, clear holiday name
+    if int(is_open) == 1:
+        holiday_name = None
 
     cursor.execute(
         "UPDATE market_calendar SET is_market_open = %s, holiday_name = %s, open_time = %s, close_time = %s WHERE date = %s",
         (is_open, holiday_name, open_time, close_time, date)
     )
 
-    connection.commit()
     connection.close()
 
     ## Confirmation message
