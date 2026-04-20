@@ -31,7 +31,11 @@ def portfolio():
             h['curr_price'] = float(h['curr_price'])
             h['total_value'] = float(h['total_value'])
 
-        return jsonify({"success": True, "portfolio": holdings}), 200
+        cursor.execute("SELECT avail_balance FROM account WHERE user_id = %s", (session['user_id'],))
+        account = cursor.fetchone()
+        avail_balance = float(account['avail_balance']) if account else 0.0
+
+        return jsonify({"success": True, "portfolio": holdings, "avail_balance": avail_balance}), 200
 
     except Exception as e:
         return jsonify({"success": False, "message": str(e)}), 500
