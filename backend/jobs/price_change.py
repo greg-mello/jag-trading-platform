@@ -4,6 +4,8 @@
 
 import random
 from datetime import datetime
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "api"))
 from db_connection import get_connection
 
 

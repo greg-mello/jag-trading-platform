@@ -13,7 +13,7 @@ from apis.portfolio_history import portfolio_bp
 from apis.check_role import check_role_bp
 
 app = Flask(__name__)
-app.secret_key = 'gfCBds65sTd8gs$'
+app.secret_key = os.environ.get('SECRET_KEY', 'fallback-dev-key')
 
 ## Show all stocks and prices
 app.register_blueprint(list_prices_bp)

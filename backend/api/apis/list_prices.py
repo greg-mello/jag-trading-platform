@@ -10,7 +10,7 @@ def list_prices():
 		cursor = conn.cursor()
 
 		cursor.execute("""
-				 SELECT s.stock_id, s.ticker, s.company, s.curr_price, s.volume, s.market_cap,
+				 SELECT s.stock_id, s.ticker, s.company, s.init_price, s.curr_price, s.volume, s.market_cap,
 				 		ph_open.price_at_recorded AS open_price,
 				 		ph_agg.high,
 				 		ph_agg.low
@@ -46,9 +46,9 @@ def list_prices():
 				"stock_id": stock['stock_id'],
 				"ticker": stock['ticker'],
 				"company": stock['company'],
+				"init_price": float(stock['init_price']),
 				"curr_price": curr,
 				"volume": stock['volume'],
-				"market_cap": float(stock['market_cap']),
 				"open_price": float(stock['open_price']) if stock['open_price'] is not None else curr,
 				"high": float(stock['high']) if stock['high'] is not None else curr,
 				"low": float(stock['low']) if stock['low'] is not None else curr

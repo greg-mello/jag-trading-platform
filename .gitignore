@@ -21,3 +21,20 @@ instance/
 # OS / Editor Files
 .DS_Store
 *.swp
+
+# AWS / SSH
+*.pem
+
+# Database dumps
+*.sql.gz
+*.sql
+!database/jag_trading_schema.sql
+
+# Runtime directories
+db_imports/
+
+# IDE
+.vscode/
+
+# Test files
+test.wsgi

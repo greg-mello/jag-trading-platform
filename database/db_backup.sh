@@ -1,14 +1,17 @@
 #!/bin/bash
-# bash script to backup the trading_platform database and transfer to AWS
+# JAG Trading Platform - Database Backup Script
+# Used during development to backup the local database and transfer to AWS runtime server.
+# Configure the variables below before use.
+
 BACKUP_DIR="/var/backups/mysql"
 DB_NAME="trading_platform"
-DB_USER="tradingapp"
-DB_PASS="tradingpass123"
+DB_USER="your_db_user"
+DB_PASS="your_db_password"
 DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_FILE="$BACKUP_DIR/${DB_NAME}_${DATE}.sql"
-PEM_KEY="/srv/group-project/greg/jagkp.pem"
+PEM_KEY="/path/to/your/keypair.pem"
 AWS_USER="ubuntu"
-AWS_HOST="34.233.94.216"
+AWS_HOST="your_aws_ip"
 AWS_DEST="/srv/group-project/db_imports"
 
 # Create backup directory if it doesn't exist

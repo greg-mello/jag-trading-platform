@@ -532,7 +532,7 @@ const extractBalance = (data) => {
         stocks = rows.map((item) => ({
           ticker: item.ticker || "",
           company: item.company || item.company_name || "",
-          initPrice: Number(item.curr_price || item.price || 0),
+          initPrice: Number(item.init_price || item.price || 0),
           volume: Number(item.volume || 0),
         }));
       } catch (err) {

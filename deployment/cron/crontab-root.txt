@@ -1,0 +1,10 @@
+# JAG Trading Platform - Root Crontab
+# Reference file for server setup. Apply with: sudo crontab -e
+
+# Auto-import database backups from db_imports directory
+* * * * * bash /srv/group-project/deployment/db_import.sh >> /var/log/db_import.log 2>&1
+
+# Stock price updates - every 5 minutes during market hours (Mon-Fri)
+30-59/5 9 * * 1-5 /usr/bin/python3 /srv/group-project/backend/jobs/price_change.py >> /var/log/price_change.log 2>&1
+*/5 10-15 * * 1-5 /usr/bin/python3 /srv/group-project/backend/jobs/price_change.py >> /var/log/price_change.log 2>&1
+59 15 * * 1-5 /usr/bin/python3 /srv/group-project/backend/jobs/price_change.py >> /var/log/price_change.log 2>&1
