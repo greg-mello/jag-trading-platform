@@ -99,7 +99,7 @@ Python · Flask · MySQL · Apache · mod_wsgi · Ubuntu Server · AWS EC2 · Ta
 
 Pages not covered in the screenshots above:
 
-- **Login** — credentials check; admins are routed straight to Admin: Stocks, everyone else lands on Market
+- **Login** — credentials check; admins are routed straight to Admin: Stocks, everyone else lands on Portfolio & Cash
 - **Create Account** — user registration, passwords hashed with werkzeug
 - **Open Orders** — pending order queue with cancel controls
 - **Portfolio & Cash** — balances, holdings table, deposit/withdraw
