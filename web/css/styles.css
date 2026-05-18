@@ -104,7 +104,7 @@ body{
   border-radius: var(--radius);
   padding: 14px;
   box-shadow: var(--shadow-soft);
-  height: calc(100vh - 90px);
+  max-height: calc(100vh - 90px);
   position: sticky;
   top: 74px;
   overflow:auto;
@@ -138,7 +138,7 @@ body{
 
 
 .content{
-  min-height: calc(100vh - 90px);
+  min-max-height: calc(100vh - 90px);
 }
 
 /* panels */
