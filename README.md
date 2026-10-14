@@ -2,7 +2,7 @@
 
 Simulated stock trading platform built as a three-person capstone. I owned the backend and infrastructure: 15 Flask API endpoints, a cron-driven price engine, and both server environments.
 
-**Live site:** [jagtrading.xyz](https://jagtrading.xyz) &nbsp;·&nbsp; **Status:** Complete
+**Live site: Decommissioned after the capstone ended (see Screenshots) ** **Status:** Complete
 
 ---
 
