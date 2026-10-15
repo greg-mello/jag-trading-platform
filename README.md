@@ -37,6 +37,8 @@ Simulated stock trading platform built as a three-person capstone. I owned the b
 
 ## Infrastructure
 
+![Architecture diagram](docs/architecture.png)
+
 Two environments running the same stack — Apache, mod_wsgi, Flask, MySQL. Dev was an Ubuntu Server VM on my homelab server; production was an AWS EC2 t3.small. Both built up from a base OS image. HTTPS on production runs on a Let's Encrypt cert configured for auto-renewal.
 
 The team got into the dev server through a Tailscale mesh VPN, which kept the dev box off the public internet entirely. Deployment was plain git: push to GitHub from dev, pull on production, restart Apache. Database moves between environments were handled with mysqldump. Project backups ran on cron with a 7-day rolling retention, and frequency increased as the codebase grew.
